@@ -1,0 +1,29 @@
+main {
+  max-width: 800px;
+  margin: 20px auto;
+  color: #3e4144;
+}
+
+input:checked + label::before {
+  transform: scaleX(1);
+}
+
+.lazer {
+  background-color:  #ff70a6ff;
+}
+
+.saude {
+  background-color:  #ff9770ff;
+}
+
+.trabalho {
+  background-color:  rgb(0, 142, 12);
+}
+
+.estudo {
+  background-color:  rgb(33, 160, 251);
+}
+
+#liveAlertPlaceholder {
+  margin-top: 20px;
+}

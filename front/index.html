@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="css/todo.css" rel="stylesheet">
+  <title>Todo List</title>
+</head>
+<body>
+  <main id="app" class="container">
+    <form action="" id="form">
+      <div class="row g-1">
+        <div class="col-6 col-md-3">
+          <div class="form-floating">
+            <select class="form-select form-select-sm" name="categorias" id="categorias" aria-label="Seletor de categorias">
+            </select>
+            <label for="categorias">Categorias</label>
+          </div>
+        </div>
+
+      <div class="col-6  col-md-4">
+        <div class="form-floating">
+          <input type="text" class="form-control form-control-sm" name="descricao" id="descricao" placeholder="Digite aqui sua tarefa" required>
+          <label for="descricao">
+            Descrição:
+          </label>
+        </div>
+      </div>
+  
+      <div class="col-6 col-md-3">
+        <div class="form-floating">
+          <input type="date" class="form-control form-control-sm" name="data" id="data">
+          <label for="data">
+            Data de entrega:
+          </label>
+        </div>
+      </div>
+  
+      <div class="col col-md-2">
+        <input type="submit" id="addTask" class="btn btn-primary" value="Adicionar" disabled>
+      </div>
+    </form>
+  
+    <section>
+      <h1>Minhas tarefas</h1>
+
+      <div class="input-group flex-nowrap c0l">
+        <span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span>
+        <input type="text" id="filtro" class="form-control" placeholder="Digite aqui o que procura" aria-label="campo de busca" aria-describedby="addon-wrapping">
+      </div>
+      
+      <div id="liveAlertPlaceholder">
+      </div>
+      
+
+      <table class="table">
+        <thead class="table-light">
+          <tr>
+            <th colspan="2"><button type="button" class="btn" id="sort-description"><strong>Descrição</strong><i class="bi bi-dash"></i></button></th>
+            <th><button type="button" class="btn" id="sort-category"><strong>Categoria</strong><i class="bi bi-dash"></i></button></th>
+            <th><button type="button" class="btn" id="sort-date"><strong>Prazo</strong><i class="bi bi-dash"></i></button></th>
+            <th>Ações</i></button></th>
+          </tr>
+        </thead>
+        <tbody id="tarefas"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5" class="text-center">
+              <div class="btn-group btn-group-sm" role="group" aria-label="Status das tarefas">
+
+                <input type="radio" class="btn-check" name="btnradio" id="status-pendente" autocomplete="off" checked>
+                <label class="btn btn-outline-secondary" for="status-pendente">Pendentes</label>
+              
+                <input type="radio" class="btn-check" name="btnradio" id="status-complete" autocomplete="off">
+                <label class="btn btn-outline-secondary" for="status-complete">Completadas</label>                
+  
+                <input type="radio" class="btn-check" name="btnradio" id="status-archived" autocomplete="off">
+                <label class="btn btn-outline-secondary" for="status-archived">Arquivadas</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="status-all" autocomplete="off">
+                <label class="btn btn-outline-secondary" for="status-all">Todas</label>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+  </main>
+
+  <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar tarefa</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <form id="editForm">
+            <div class="form-floating">
+              <input type="text" class="form-control form-control-sm" name="editDescricao" id="editDescricao" placeholder="Digite aqui sua tarefa" required>
+              <label for="editDescricao">
+                Nova descrição:
+              </label>
+            </div>
+         </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelUpdate" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button id="updateTask" type="submit" form="editForm" class="btn btn-primary">
+            <i class="bi bi-floppy"></i> Atualizar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>Você tem certeza que deseja <strong>deletar</strong> essa tarefa?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelDelete" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button id="deleteTask" type="submit" class="btn btn-danger">
+            <i class="bi bi-trash"></i> Sim
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="archiveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>Você tem certeza que deseja <strong>arquivar</strong> essa tarefa?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelArchive" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button id="archiveTask" type="submit"  class="btn btn-warning">
+            <i class="bi bi-trash"></i> Arquivar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+  <script src="js/categorias.js"></script>
+  <script src="js/tarefas.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

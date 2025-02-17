@@ -24,6 +24,7 @@ input:checked + label::before {
 
 .trabalho {
   background-color:  rgb(0, 142, 12);
+  color: white;
 }
 
 .estudo {
@@ -33,3 +34,26 @@ input:checked + label::before {
 #liveAlertPlaceholder {
   margin-top: 20px;
 }
+
+#deleteModal span {
+  font-weight: bold;
+}
+
+button {
+  border-radius: 3px;
+  border-width: 0px;
+}
+
+.delete-button {
+  background-color: rgb(238, 86, 86);
+  color: white;
+}
+
+dialog {
+  border-radius: 5px;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.528);
+}
+

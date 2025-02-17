@@ -8,6 +8,12 @@ input:checked + label::before {
   transform: scaleX(1);
 }
 
+.category {
+  padding: 5px;
+  text-transform: capitalize;
+  border-radius: 5px;
+}
+
 .lazer {
   background-color:  #ff70a6ff;
 }

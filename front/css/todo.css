@@ -49,6 +49,11 @@ button {
   color: white;
 }
 
+.edit-button {
+  background-color: rgb(86, 129, 238);
+  color: white;
+}
+
 dialog {
   border: none;
   border-radius: 5px;

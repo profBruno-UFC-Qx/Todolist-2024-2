@@ -95,54 +95,21 @@
     <p>Você tem certeza que deseja apagar a tarefa <span></span>?</p>
     <form method="dialog">
       <button id="deleteButton">Sim</button>
-      <button id="cancelButton">Não</button>
+      <button>Não</button>
     </form>
   </dialog>
 
-  <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar tarefa</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-         <form id="editForm">
-            <div class="form-floating">
-              <input type="text" class="form-control form-control-sm" name="editDescricao" id="editDescricao" placeholder="Digite aqui sua tarefa" required>
-              <label for="editDescricao">
-                Nova descrição:
-              </label>
-            </div>
-         </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" id="cancelUpdate" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button id="updateTask" type="submit" form="editForm" class="btn btn-primary">
-            <i class="bi bi-floppy"></i> Atualizar
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <dialog id="editModal">
+    <form method="dialog">
+      <p>Atualizando a tarefa:</p>
+      <label for="editDescription">Descrição:</label>
+      <input id="editDescription" type="text" required>
+      <br>
+      <button id="editButton">Atualizar</button>
+      <button>Cancelar</button>
+    </form>
+  </dialog>
 
-
-
-  <div class="modal fade" id="archiveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <p>Você tem certeza que deseja <strong>arquivar</strong> essa tarefa?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" id="cancelArchive" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button id="archiveTask" type="submit"  class="btn btn-warning">
-            <i class="bi bi-trash"></i> Arquivar
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

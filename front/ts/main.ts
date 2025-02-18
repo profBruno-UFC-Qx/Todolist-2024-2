@@ -4,10 +4,19 @@ const formDescricao = document.getElementById('descricao') as HTMLInputElement
 const deadlineInput = document.getElementById('data') as HTMLInputElement
 const selectCategory = document.getElementById("categorias") as HTMLSelectElement
 const deleteModal = document.getElementById('deleteModal') as HTMLDialogElement
+const editModal = document.getElementById('editModal') as HTMLDialogElement
 const cancelButton = document.getElementById('cancelButton')
 const deleteButton = document.getElementById('deleteButton')
+const editDescriptionDialog = document.getElementById('editDescription') as HTMLInputElement
+const editButton = document.getElementById('editButton')  as HTMLButtonElement
 let taskToDelete: string;
+let taskToEdit: string
 
+editButton?.addEventListener('click', async () => {
+  console.log(`Atualizando a tarefa ${taskToEdit}`)
+  await updateTask(taskToEdit, editDescriptionDialog.value)
+  mostrarTarefas()
+})
 
 deleteButton?.addEventListener('click', async () => {
   await deleteTask(taskToDelete)
@@ -58,9 +67,8 @@ async function mostrarTarefas() {
       const deadline = document.createElement('td')
       deadline.innerText = task.deadline || ''
 
-      const acoes = document.createElement('td')
-      const deleteButton = createDeleteButton(task)
-      acoes.appendChild(deleteButton)
+      const acoes = createAcoes(task)
+      
 
       novaLinha.appendChild(description)
       novaLinha.appendChild(category)
@@ -104,6 +112,34 @@ function createDeleteButton(task: Task): HTMLButtonElement {
   return deleteButton
 }
 
+function createEditButton(task: Task): HTMLButtonElement {
+  const editButton = document.createElement('button')
+  editButton.className = 'edit-button'
+  editButton.addEventListener('click', () => {
+    taskToEdit = task.documentId as string
+    editDescriptionDialog.value = task.description
+    editModal.showModal()
+  })
+
+  const icon = document.createElement('i')
+  icon.className = 'bi bi-pencil'
+  editButton.appendChild(icon)
+ 
+  return editButton
+}
+
+function createAcoes(task: Task): HTMLTableCellElement {
+  const acoes = document.createElement('td')
+  
+  const deleteButton = createDeleteButton(task)
+  acoes.appendChild(deleteButton)
+
+  const editButton = createEditButton(task)
+  acoes.appendChild(editButton)
+
+  return acoes
+}
+
 
 function showDeleteModal(task: Task) {
   deleteModal?.showModal()
@@ -115,12 +151,11 @@ function showDeleteModal(task: Task) {
 
 window.addEventListener('load', async () => {
 
-  const res = await getAllCategory();
+  const res = await getAllCategory()
   for(let categoria of res.data) {
     const option = createOption(categoria)
     selectCategory?.appendChild(option)
   }
-
   mostrarTarefas()
  
 });

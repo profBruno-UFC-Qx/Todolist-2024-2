@@ -9,17 +9,21 @@ const cancelButton = document.getElementById('cancelButton')
 const deleteButton = document.getElementById('deleteButton')
 const editDescriptionDialog = document.getElementById('editDescription') as HTMLInputElement
 const editButton = document.getElementById('editButton')  as HTMLButtonElement
-let taskToDelete: string;
-let taskToEdit: string
+let taskToDelete: Task;
+let taskToEdit: Task
+
+
+const taskManager = new TaskManager()
 
 editButton?.addEventListener('click', async () => {
   console.log(`Atualizando a tarefa ${taskToEdit}`)
-  await updateTask(taskToEdit, editDescriptionDialog.value)
+  taskToEdit.description = editDescriptionDialog.value
+  await taskManager.update(taskToEdit)
   mostrarTarefas()
 })
 
 deleteButton?.addEventListener('click', async () => {
-  await deleteTask(taskToDelete)
+  await taskManager.delete(taskToDelete)
   mostrarTarefas()
   deleteModal.close()
 })
@@ -44,12 +48,12 @@ form?.addEventListener('submit', async (e) => {
       description: selectCategory.options[selectCategory.selectedIndex].text
     }
   }
-  await createTask(task)
+  await taskManager.create(task)
   mostrarTarefas()
 })
 
 async function mostrarTarefas() {
-  const res =  await getAll();
+  const res =  await taskManager.getAll();
   const tableBody = document.getElementById("tarefas")
   if(tableBody) {
     tableBody.innerHTML = ''
@@ -116,7 +120,7 @@ function createEditButton(task: Task): HTMLButtonElement {
   const editButton = document.createElement('button')
   editButton.className = 'edit-button'
   editButton.addEventListener('click', () => {
-    taskToEdit = task.documentId as string
+    taskToEdit = task
     editDescriptionDialog.value = task.description
     editModal.showModal()
   })
@@ -145,7 +149,7 @@ function showDeleteModal(task: Task) {
   deleteModal?.showModal()
   const taskSpan = deleteModal?.querySelector('p > span') as HTMLElement
   taskSpan.innerText = task.description
-  taskToDelete = task.documentId as string
+  taskToDelete = task
 }
 
 

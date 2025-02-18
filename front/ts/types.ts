@@ -3,7 +3,7 @@ interface StrapiResponse<T> {
   meta: Pagination
 }
 
-interface StrapiResponsePost<T> {
+interface StrapiResponseSingle<T> {
   data: T
   meta: Pagination
 }
